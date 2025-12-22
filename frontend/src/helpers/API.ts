@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { AxiosInstance } from "axios";
 
-const PREFIX = "http://localhost:3000";
+const PREFIX = "http://localhost:3000/api";
 import type {
   AuthResponse,
   LoginDto,
@@ -30,7 +30,6 @@ class ApiClient {
       },
     });
 
-    // Добавляем токен в заголовки при каждом запросе
     this.client.interceptors.request.use((config) => {
       const token = localStorage.getItem("token");
       if (token) {
@@ -39,7 +38,6 @@ class ApiClient {
       return config;
     });
 
-    // Обрабатываем ошибки
     this.client.interceptors.response.use(
       (response) => response,
       (error) => {
@@ -53,7 +51,6 @@ class ApiClient {
     );
   }
 
-  // Auth
   async register(data: RegisterDto): Promise<AuthResponse> {
     const response = await this.client.post<AuthResponse>(
       "/auth/register",
@@ -72,7 +69,6 @@ class ApiClient {
     return response.data;
   }
 
-  // Materials
   async getMaterials(): Promise<MaterialWithFavorites[]> {
     const response =
       await this.client.get<MaterialWithFavorites[]>("/materials");
@@ -141,7 +137,6 @@ class ApiClient {
     return response.data;
   }
 
-  // Themes
   async getThemes(): Promise<Theme[]> {
     const response = await this.client.get<Theme[]>("/themes");
     return response.data;
@@ -166,7 +161,6 @@ class ApiClient {
     await this.client.delete(`/themes/${id}`);
   }
 
-  // Categories
   async getCategories(): Promise<Category[]> {
     const response = await this.client.get<Category[]>("/categories");
     return response.data;
@@ -201,7 +195,6 @@ class ApiClient {
     await this.client.delete(`/categories/${id}`);
   }
 
-  // Users (Admin only)
   async getUsers(): Promise<User[]> {
     const response = await this.client.get<User[]>("/users");
     return response.data;
