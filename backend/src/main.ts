@@ -12,7 +12,12 @@ async function bootstrap() {
 
   const allowedOrigins = process.env.ALLOWED_ORIGINS
     ? process.env.ALLOWED_ORIGINS.split(",")
-    : ["http://localhost:5173", "http://localhost:3000", "http://localhost:80"];
+    : [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://localhost:80",
+        "https://frontend-production-d585.up.railway.app",
+      ];
 
   app.enableCors({
     origin: allowedOrigins,
