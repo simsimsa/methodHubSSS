@@ -55,7 +55,7 @@ export class FavoritRepository {
 
   async isFavorite(materialId: number, userId: number): Promise<boolean> {
     const query = `
-      SELECT 1 FROM favorit
+      SELECT * FROM favorit
       WHERE material_id = $1 AND user_id = $2
       LIMIT 1
     `;

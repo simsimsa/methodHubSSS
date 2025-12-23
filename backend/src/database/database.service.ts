@@ -8,13 +8,18 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
   private pool: Pool;
 
   constructor() {
+    let ssl: boolean | { rejectUnauthorized: boolean } = false;
+    if (process.env.DB_SSL === "true" || process.env.DB_SSL === "1") {
+      ssl = { rejectUnauthorized: false };
+    }
+
     const config: PoolConfig = {
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT || '5432'),
-      database: process.env.DB_NAME || 'methodhub',
-      user: process.env.DB_USER || 'postgres',
-      password: process.env.DB_PASSWORD || 'postgres',
-      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+      host: process.env.DB_HOST || "localhost",
+      port: parseInt(process.env.DB_PORT || "5432"),
+      database: process.env.DB_NAME || "methodhub",
+      user: process.env.DB_USER || "postgres",
+      password: process.env.DB_PASSWORD || "postgres",
+      ssl,
     };
 
     this.pool = new Pool(config);
@@ -96,7 +101,7 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
 
   async isConnected(): Promise<boolean> {
     try {
-      await this.query('SELECT 1');
+      await this.query('SELECT *');
       return true;
     } catch {
       return false;

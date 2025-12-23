@@ -1,0 +1,19 @@
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+cmds = [
+  "npm install -g corepack",
+  "corepack enable",
+  "corepack prepare pnpm@10.12.4 --activate"
+]
+
+[phases.install]
+cmds = [
+  "test -f pnpm-lock.yaml && pnpm install --frozen-lockfile || pnpm install"
+]
+
+[phases.build]
+cmds = ["pnpm --filter backend build"]
+
+[start]
+cmd = "pnpm --filter backend start:prod"
+

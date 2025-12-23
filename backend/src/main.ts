@@ -6,25 +6,13 @@ import { AppModule } from "./app.module";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+
   app.setGlobalPrefix("api");
 
-  const allowedOrigins: (string | RegExp | ((origin: string) => boolean))[] = [
-    "http://localhost:5173",
-    "http://localhost:3000",
-    "http://localhost:80",
-    "http://localhost",
-  ];
 
-  if (process.env.FRONTEND_URL) {
-    allowedOrigins.push(process.env.FRONTEND_URL);
-  }
-
-  if (process.env.NODE_ENV === "production") {
-    allowedOrigins.push(
-      (origin: string) =>
-        origin.startsWith("https://") && origin.includes(".up.railway.app"),
-    );
-  }
+  const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(",")
+    : ["http://localhost:5173", "http://localhost:3000", "http://localhost:80"];
 
   app.enableCors({
     origin: allowedOrigins,

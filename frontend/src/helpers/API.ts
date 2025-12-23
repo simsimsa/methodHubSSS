@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { AxiosInstance } from "axios";
 
-const PREFIX = "http://localhost:3000/api";
+const PREFIX = import.meta.env.VITE_API_PREFIX || "http://localhost:3000";
 import type {
   AuthResponse,
   LoginDto,

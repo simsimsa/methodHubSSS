@@ -103,7 +103,7 @@ export abstract class BaseRepository<T> {
   }
 
   async exists(id: number): Promise<boolean> {
-    const query = `SELECT 1 FROM ${this.getTableName()} WHERE ${this.getPrimaryKey()} = $1 LIMIT 1`;
+    const query = `SELECT * FROM ${this.getTableName()} WHERE ${this.getPrimaryKey()} = $1 LIMIT 1`;
     const result = await this.databaseService.query(query, [id]);
     return result.rows.length > 0;
   }
